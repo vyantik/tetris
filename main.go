@@ -17,10 +17,14 @@ func main() {
 
 	t := game.NewTetris()
 
+	defer t.UnloadAll()
+
 	backgroundColor := rl.NewColor(30, 30, 30, 255)
 	uiBackground := rl.NewColor(20, 20, 20, 255)
 
 	for !rl.WindowShouldClose() {
+		rl.UpdateMusicStream(t.GetMusic())
+
 		t.HandleInput()
 
 		if game.EventTriggered(0.4) {

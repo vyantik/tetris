@@ -39,6 +39,12 @@ func NewTetris() *game {
 
 	rl.InitAudioDevice()
 
+	tetrisPointer.music = rl.LoadMusicStream("sounds/music.mp3")
+	tetrisPointer.rotateSound = rl.LoadSound("sounds/rotate.mp3")
+	tetrisPointer.clearSound = rl.LoadSound("sounds/clear.mp3")
+
+	rl.PlayMusicStream(tetrisPointer.music)
+
 	return tetrisPointer
 }
 
@@ -50,6 +56,10 @@ func (t *game) GetScore() int32 {
 	return t.score
 }
 
+func (t *game) GetMusic() rl.Music {
+	return t.music
+}
+
 var lastUpdateTime float64 = 0.0
 
 func EventTriggered(interval float64) bool {
@@ -59,6 +69,12 @@ func EventTriggered(interval float64) bool {
 		return true
 	}
 	return false
+}
+
+func (t *game) UnloadAll() {
+	rl.UnloadMusicStream(t.music)
+	rl.UnloadSound(t.rotateSound)
+	rl.UnloadSound(t.clearSound)
 }
 
 func (t *game) Start() {
@@ -124,7 +140,7 @@ func (t *game) HandleInput() {
 func (t *game) moveBlockLeft() {
 	if !t.isOver {
 		t.currentBlock.Move(0, -1)
-		if t.isBlockOutside() || t.blockFits() == false {
+		if t.isBlockOutside() || !t.blockFits() {
 			t.currentBlock.Move(0, 1)
 		}
 	}
@@ -134,7 +150,7 @@ func (t *game) moveBlockLeft() {
 func (t *game) moveBlockRight() {
 	if !t.isOver {
 		t.currentBlock.Move(0, 1)
-		if t.isBlockOutside() || t.blockFits() == false {
+		if t.isBlockOutside() || !t.blockFits() {
 			t.currentBlock.Move(0, -1)
 		}
 	}
@@ -143,7 +159,7 @@ func (t *game) moveBlockRight() {
 func (t *game) MoveBlockDown() {
 	if !t.isOver {
 		t.currentBlock.Move(1, 0)
-		if t.isBlockOutside() || t.blockFits() == false {
+		if t.isBlockOutside() || !t.blockFits() {
 			t.currentBlock.Move(-1, 0)
 			t.lockBlock()
 		}
@@ -165,8 +181,10 @@ func (t *game) isBlockOutside() bool {
 func (t *game) rotateBlock() {
 	if !t.isOver {
 		t.currentBlock.Rotate()
-		if t.isBlockOutside() || t.blockFits() == false {
+		if t.isBlockOutside() || !t.blockFits() {
 			t.currentBlock.UndoRotation()
+		} else {
+			rl.PlaySound(t.rotateSound)
 		}
 	}
 }
@@ -179,19 +197,23 @@ func (t *game) lockBlock() {
 	}
 
 	t.currentBlock = t.nextBlock
-	if t.blockFits() == false {
+	if !t.blockFits() {
 		t.isOver = true
 	}
 	t.nextBlock = t.getRandomBlock()
 	rowsCleared := t.grid.ClearFullRows()
-	t.updateScore(rowsCleared, 0)
+
+	if rowsCleared > 0 {
+		rl.PlaySound(t.clearSound)
+		t.updateScore(rowsCleared, 0)
+	}
 }
 
 func (t *game) blockFits() bool {
 	tiles := t.currentBlock.GetCellPositions()
 
 	for _, tile := range tiles {
-		if t.grid.IsCellEmpty(tile.GetRow(), tile.GetCol()) == false {
+		if !t.grid.IsCellEmpty(tile.GetRow(), tile.GetCol()) {
 			return false
 		}
 	}
