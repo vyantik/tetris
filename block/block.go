@@ -12,10 +12,11 @@ type IBlock interface {
 	GetCellPositions() []position
 	Rotate()
 	UndoRotation()
+	GetId() int32
 }
 
 type block struct {
-	id int
+	id int32
 
 	cells map[int][]position
 
@@ -41,7 +42,7 @@ func newBlock() *block {
 func (b *block) Draw() {
 	tiles := b.GetCellPositions()
 	for _, tile := range tiles {
-		rl.DrawRectangle(tile.col*b.cellSize+1, tile.row*b.cellSize+1, b.cellSize-1, b.cellSize-1, b.colors[b.id])
+		rl.DrawRectangle(tile.col*b.cellSize+11, tile.row*b.cellSize+11, b.cellSize-1, b.cellSize-1, b.colors[b.id])
 	}
 }
 
@@ -73,4 +74,8 @@ func (b *block) UndoRotation() {
 	if b.rotationState == -1 {
 		b.rotationState = len(b.cells) - 1
 	}
+}
+
+func (b *block) GetId() int32 {
+	return b.id
 }
