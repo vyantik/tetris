@@ -1,6 +1,8 @@
 package main
 
-import "game/tetris/tetris"
+import (
+	"game/tetris/tetris"
+)
 
 func main() {
 	tetris.NewTetris().Start()

@@ -11,3 +11,11 @@ func newPosition(row, col int32) *position {
 		col: col,
 	}
 }
+
+func (p *position) GetRow() int32 {
+	return p.row
+}
+
+func (p *position) GetCol() int32 {
+	return p.col
+}

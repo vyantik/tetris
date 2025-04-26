@@ -1,10 +1,10 @@
 package block
 
-type LBlock struct {
-	Block block
+type LTypeBlock struct {
+	*block
 }
 
-func NewLBlock() *LBlock {
+func NewLTypeBlock() *LTypeBlock {
 	block := newBlock()
 	block.id = 1
 	block.cells = map[int][]position{
@@ -35,16 +35,16 @@ func NewLBlock() *LBlock {
 	}
 	block.Move(0, 3)
 
-	return &LBlock{
-		Block: *block,
+	return &LTypeBlock{
+		block: block,
 	}
 }
 
-type JBlock struct {
-	Block block
+type JTypeBlock struct {
+	*block
 }
 
-func NewJBlock() *JBlock {
+func NewJTypeBlock() *JTypeBlock {
 	block := newBlock()
 	block.id = 2
 	block.cells = map[int][]position{
@@ -75,16 +75,16 @@ func NewJBlock() *JBlock {
 	}
 	block.Move(0, 3)
 
-	return &JBlock{
-		Block: *block,
+	return &JTypeBlock{
+		block: block,
 	}
 }
 
-type IBlock struct {
-	Block block
+type ITypeBlock struct {
+	*block
 }
 
-func NewIBlock() *IBlock {
+func NewITypeBlock() *ITypeBlock {
 	block := newBlock()
 	block.id = 3
 	block.cells = map[int][]position{
@@ -115,16 +115,16 @@ func NewIBlock() *IBlock {
 	}
 	block.Move(-1, 3)
 
-	return &IBlock{
-		Block: *block,
+	return &ITypeBlock{
+		block: block,
 	}
 }
 
-type OBlock struct {
-	Block block
+type OTypeBlock struct {
+	*block
 }
 
-func NewOBlock() *OBlock {
+func NewOTypeBlock() *OTypeBlock {
 	block := newBlock()
 	block.id = 4
 	block.cells = map[int][]position{
@@ -155,16 +155,16 @@ func NewOBlock() *OBlock {
 	}
 	block.Move(0, 4)
 
-	return &OBlock{
-		Block: *block,
+	return &OTypeBlock{
+		block: block,
 	}
 }
 
-type SBlock struct {
-	Block block
+type STypeBlock struct {
+	*block
 }
 
-func NewSBlock() *SBlock {
+func NewSTypeBlock() *STypeBlock {
 	block := newBlock()
 	block.id = 5
 	block.cells = map[int][]position{
@@ -195,16 +195,16 @@ func NewSBlock() *SBlock {
 	}
 	block.Move(0, 3)
 
-	return &SBlock{
-		Block: *block,
+	return &STypeBlock{
+		block: block,
 	}
 }
 
-type TBlock struct {
-	Block block
+type TTypeBlock struct {
+	*block
 }
 
-func NewTBlock() *TBlock {
+func NewTTypeBlock() *TTypeBlock {
 	block := newBlock()
 	block.id = 6
 	block.cells = map[int][]position{
@@ -235,16 +235,16 @@ func NewTBlock() *TBlock {
 	}
 	block.Move(0, 3)
 
-	return &TBlock{
-		Block: *block,
+	return &TTypeBlock{
+		block: block,
 	}
 }
 
-type ZBlock struct {
-	Block block
+type ZTypeBlock struct {
+	*block
 }
 
-func NewZBlock() *ZBlock {
+func NewZTypeBlock() *ZTypeBlock {
 	block := newBlock()
 	block.id = 7
 	block.cells = map[int][]position{
@@ -275,7 +275,7 @@ func NewZBlock() *ZBlock {
 	}
 	block.Move(0, 3)
 
-	return &ZBlock{
-		Block: *block,
+	return &ZTypeBlock{
+		block: block,
 	}
 }

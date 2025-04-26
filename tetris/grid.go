@@ -31,11 +31,18 @@ func newGrid(numRows, numColumns, cellSize int32) *grid {
 	}
 }
 
-func (g *grid) Draw() {
+func (g *grid) draw() {
 	for row := range g.numRows {
 		for col := range g.numColumns {
 			cellValue := g.gridMatrix[row][col]
 			rl.DrawRectangle(col*g.cellSize+1, row*g.cellSize+1, g.cellSize-1, g.cellSize-1, g.figuresColors[cellValue])
 		}
 	}
+}
+
+func (g *grid) IsCellOutside(row, col int32) bool {
+	if row >= 0 && row < g.numRows && col >= 0 && col < g.numColumns {
+		return false
+	}
+	return true
 }

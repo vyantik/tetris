@@ -6,9 +6,12 @@ import (
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
-type InterfaceBlock interface {
-	New() *block
+type IBlock interface {
 	Draw()
+	Move(y, x int32)
+	GetCellPositions() []position
+	Rotate()
+	UndoRotation()
 }
 
 type block struct {
@@ -58,4 +61,16 @@ func (b *block) GetCellPositions() []position {
 	return movedTiles
 }
 
-func (b *block) Rotate() {}
+func (b *block) Rotate() {
+	b.rotationState++
+	if b.rotationState == len(b.cells) {
+		b.rotationState = 0
+	}
+}
+
+func (b *block) UndoRotation() {
+	b.rotationState--
+	if b.rotationState == -1 {
+		b.rotationState = len(b.cells) - 1
+	}
+}
