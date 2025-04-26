@@ -19,6 +19,11 @@ type game struct {
 
 	score  int32
 	isOver bool
+
+	music rl.Music
+
+	rotateSound rl.Sound
+	clearSound  rl.Sound
 }
 
 func NewTetris() *game {
@@ -31,6 +36,8 @@ func NewTetris() *game {
 	}
 	tetrisPointer.currentBlock = tetrisPointer.getRandomBlock()
 	tetrisPointer.nextBlock = tetrisPointer.getRandomBlock()
+
+	rl.InitAudioDevice()
 
 	return tetrisPointer
 }
@@ -73,7 +80,17 @@ func (t *game) getRandomBlock() block.IBlock {
 
 func (t *game) Draw() {
 	t.grid.Draw()
-	t.currentBlock.Draw()
+	t.currentBlock.Draw(11, 11)
+
+	switch t.nextBlock.GetId() {
+	case 3:
+		t.nextBlock.Draw(255, 290)
+	case 4:
+		t.nextBlock.Draw(255, 280)
+	default:
+		t.nextBlock.Draw(270, 270)
+
+	}
 }
 
 func (t *game) HandleInput() {

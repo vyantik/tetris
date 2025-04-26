@@ -7,7 +7,7 @@ import (
 )
 
 type IBlock interface {
-	Draw()
+	Draw(offsetX int32, offsetY int32)
 	Move(y, x int32)
 	GetCellPositions() []position
 	Rotate()
@@ -39,10 +39,10 @@ func newBlock() *block {
 	}
 }
 
-func (b *block) Draw() {
+func (b *block) Draw(offsetX int32, offsetY int32) {
 	tiles := b.GetCellPositions()
 	for _, tile := range tiles {
-		rl.DrawRectangle(tile.col*b.cellSize+11, tile.row*b.cellSize+11, b.cellSize-1, b.cellSize-1, b.colors[b.id])
+		rl.DrawRectangle(tile.col*b.cellSize+offsetX, tile.row*b.cellSize+offsetY, b.cellSize-1, b.cellSize-1, b.colors[b.id])
 	}
 }
 

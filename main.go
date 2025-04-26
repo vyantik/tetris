@@ -9,7 +9,9 @@ import (
 
 func main() {
 	rl.InitWindow(500, 620, "Tetris")
+
 	defer rl.CloseWindow()
+	defer rl.CloseAudioDevice()
 
 	rl.SetTargetFPS(60)
 
