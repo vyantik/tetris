@@ -21,7 +21,7 @@ func main() {
 	for !rl.WindowShouldClose() {
 		t.HandleInput()
 
-		if game.EventTriggered(0.2) {
+		if game.EventTriggered(0.4) {
 			t.MoveBlockDown()
 		}
 
@@ -35,7 +35,12 @@ func main() {
 			rl.DrawText("GAME OVER", 320, 450, 27, rl.White)
 		}
 		rl.DrawRectangleRounded(rl.Rectangle{X: 320, Y: 55, Width: 170, Height: 60}, 0.3, 6, uiBackground)
-		rl.DrawText(strconv.Itoa(int(t.GetScore())), 365, 72, 30, rl.White)
+
+		score := strconv.Itoa(int(t.GetScore()))
+		mesureScore := rl.MeasureText(score, 38)
+
+		rl.DrawText(score, 320+(170-mesureScore)/2, 68, 38, rl.White)
+
 		rl.DrawRectangleRounded(rl.Rectangle{X: 320, Y: 215, Width: 170, Height: 180}, 0.3, 6, uiBackground)
 
 		t.Draw()
